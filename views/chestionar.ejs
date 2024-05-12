@@ -1,9 +1,10 @@
-    <form>
-        <% quiz.forEach((question) => { %>
-            <%= question.question %>: <br>
-            <% question.options.forEach((option) => { %>
-                <input type="radio"> <%= option %> <br>
-            <% }); %>
+<form action="/rezultat-chestionar" method="POST">
+    <% quiz.forEach((question, qIndex) => { %>
+        <%= question.question %>: <br>
+        <% question.options.forEach((option, oIndex) => { %>
+            <input type="radio" id="q<%= qIndex %>o<%= oIndex %>" name="q<%= qIndex %>" value="<%= oIndex %>" required> <%= option %> <br>
         <% }); %>
-        <button type="submit">Submit</button>
-    </form>
+        <br>
+    <% }); %>
+    <button type="submit">Submit</button>
+</form>
