@@ -1,0 +1,9 @@
+    <form>
+        <% quiz.forEach((question) => { %>
+            <%= question.question %>: <br>
+            <% question.options.forEach((option) => { %>
+                <input type="radio"> <%= option %> <br>
+            <% }); %>
+        <% }); %>
+        <button type="submit">Submit</button>
+    </form>

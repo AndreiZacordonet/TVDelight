@@ -1,3 +1,18 @@
 {
-    
+  "name": "tvdelight",
+  "description": "TV shopping website",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrei Zacordoneț",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-ejs-layouts": "^2.5.1",
+    "nodemon": "^3.1.0"
+  }
 }
