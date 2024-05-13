@@ -29,6 +29,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.render('index', { login : 0}));
 // app.get('/', (req, res) => res.render('layout', { id: 'layout' }));
 
+
+//----Quiz----------------------------------------------------------------
+{
 // called when accesing http://localhost:6789/chestionar 
 app.get('/chestionar', (req, res) => {
     // reads the quiz from file in an syncronous manner 
@@ -85,9 +88,21 @@ app.post('/rezultat-chestionar', (req, res) => {
             res.status(500).send('Internal Server Error');
         });
 });
+}
+//------------------------------------------------------------------------
 
+//----LOGIN---------------------------------------------------------------
+{
 app.get('/autentificare', (req, res) => {
-
+    res.render('autentificare', { login : 0 });
 });
+
+app.post('/verificare-autentificare', (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+}
+//------------------------------------------------------------------------
+
 
 app.listen(port, () => console.log('Server runing at http://localhost:' + port));
