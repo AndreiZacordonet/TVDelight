@@ -25,8 +25,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Request object properties - req - https://expressjs.com/en/api.html#req
 // Response object properties - res - https://expressjs.com/en/api.html#res
 // returns hello world when accesing http://localhost:6789/
-app.get('/', (req, res) => res.send('Hello World'));
-// app.get('/', (req, res) => res.render('layout', req.query));
+// app.get('/', (req, res) => res.send('Hello World'));
+app.get('/', (req, res) => res.render('index', { login : 0}));
+// app.get('/', (req, res) => res.render('layout', { id: 'layout' }));
 
 // called when accesing http://localhost:6789/chestionar 
 app.get('/chestionar', (req, res) => {
@@ -39,7 +40,7 @@ app.get('/chestionar', (req, res) => {
             // parsing JSON data
             const quiz = JSON.parse(data);
             // render the 'chestionar' view with the quiz data
-            res.render('chestionar', { quiz });
+            res.render('chestionar', { quiz,  login: 1 });
         })
         .catch(error => {
             // handle any errors
@@ -76,13 +77,17 @@ app.post('/rezultat-chestionar', (req, res) => {
             });
 
             // seding the number of correct anwers to the Result File
-            res.render('rezultat-chestionar', { correctAns });
+            res.render('rezultat-chestionar', { correctAns, login : 1 });
         })
         .catch(error => {
             // handle any errors
             console.error('Error reading or parsing file:', error);
             res.status(500).send('Internal Server Error');
         });
+});
+
+app.get('/autentificare', (req, res) => {
+
 });
 
 app.listen(port, () => console.log('Server runing at http://localhost:' + port));
