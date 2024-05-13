@@ -1,3 +1,6 @@
+<% if (errMsg != 0) {%>
+    <div style="color: red;"><%=errMsg%></div>
+<% }; %>
 <form action="/verificare-autentificare" method="POST">
     User: <br>
     <input type="text" id="username" name="username" required><br>

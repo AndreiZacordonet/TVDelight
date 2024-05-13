@@ -1,14 +1,24 @@
-const express = require('express');
-const expressLayouts = require('express-ejs-layouts');
-const bodyParser = require('body-parser')
-const app = express();
-const port = 6789;
-
+//----const vars------------------------------------------------------------
 // using `file system` nodejs module in an asynchronous manner
 const fs = require('fs').promises;
 
+// 
+const cookieParser = require('cookie-parser'); 
+
+const express = require('express');
+const expressLayouts = require('express-ejs-layouts');
+const bodyParser = require('body-parser');
+
+// app initialization
+const app = express();
+const port = 6789;
+//-------------------------------------------------------------------------
+
 // 'views' folder contains EJS Files (html + js server-side executed)
 app.set('view engine', 'ejs');
+
+// cookie parser module
+app.use(cookieParser());
 
 // support for layouts - default template file is 'views/layout.ejs'
 app.use(expressLayouts);
@@ -26,7 +36,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Response object properties - res - https://expressjs.com/en/api.html#res
 // returns hello world when accesing http://localhost:6789/
 // app.get('/', (req, res) => res.send('Hello World'));
-app.get('/', (req, res) => res.render('index', { login : 0}));
+app.get('/', (req, res) => {
+    // checks if login was successful
+    if (req.cookies.login){
+        const login = req.cookies.login;
+        const user = req.cookies.username;
+        console.log(login, user);
+        res.render('index', { login : login , user : user });
+    }
+    else{
+        res.render('index', { login : 0, user : undefined })
+    }
+    
+});
 // app.get('/', (req, res) => res.render('layout', { id: 'layout' }));
 
 
@@ -94,15 +116,39 @@ app.post('/rezultat-chestionar', (req, res) => {
 //----LOGIN---------------------------------------------------------------
 {
 app.get('/autentificare', (req, res) => {
-    res.render('autentificare', { login : 0 });
+    if (req.cookies.errorMsg){
+        const errMsg = req.cookies.errorMsg;
+        console.log(errMsg);
+        res.clearCookie('errorMsg');
+        res.render('autentificare', { login: 0 , errMsg });
+    }
+    else{
+        res.render('autentificare', { login : 0 , errMsg : 0 });
+    }
+    
 });
 
 app.post('/verificare-autentificare', (req, res) => {
     console.log(req.body);
-    res.send(req.body);
+    // res.send(req.body);
+    const userData = req.body;
+    if (userData["username"] == "user" && userData["user-password"] == "pass"){
+        console.log("loged soup :)");
+
+        // set a cookie with the username
+        res.cookie('username', userData["username"]);
+        res.cookie('login', '1');
+
+        // redirecting
+        res.redirect('http://localhost:6789/');
+    }
+    else{
+        console.log("badly loged soup :(");
+        res.cookie('errorMsg', 'Username or password does not match!');
+        res.redirect('http://localhost:6789/autentificare');
+    }
 });
 }
 //------------------------------------------------------------------------
-
 
 app.listen(port, () => console.log('Server runing at http://localhost:' + port));
