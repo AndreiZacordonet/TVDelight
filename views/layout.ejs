@@ -7,17 +7,21 @@
     </head>
 
     <body>
-        <header>
-            <a href="http://localhost:6789/chestionar">Chestionar</a>
-        </header>
+        <% if (login) {%>
+            <header>
+                <a href="http://localhost:6789/chestionar">Chestionar</a>
+            </header>
+        <% }; %>
 
         <main>
             <%- body %>
         </main>
 
-        <footer>
+        <% if (login) {%>
+            <footer>
 
-        </footer>
+            </footer>
+        <% }; %>
     </body>
 
 </html>
