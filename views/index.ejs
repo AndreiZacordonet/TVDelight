@@ -1,4 +1,7 @@
 <% if (user) { %>
     <div>Welcome, <%= user %></div>
 <% }; %>
-<a href="http://localhost:6789/autentificare">Log In</a>
+<% if(!login) {%>
+    <a href="http://localhost:6789/autentificare">Log In</a>
+    <a href="http://localhost:6789/signUp">Sign Up</a>
+<% }; %>

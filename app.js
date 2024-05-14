@@ -120,7 +120,7 @@ app.post('/rezultat-chestionar', (req, res) => {
             });
 
             // seding the number of correct anwers to the Result File
-            res.render('rezultat-chestionar', { correctAns, login : 1 });
+            res.render('rezultat-chestionar', { correctAns, login: 1, user: req.cookies.username });
         })
         .catch(error => {
             // handle any errors
@@ -150,7 +150,8 @@ app.post('/verificare-autentificare', (req, res) => {
     console.log(req.body);
     // res.send(req.body);
     const userData = req.body;
-    if (userData["username"] == "user" && userData["user-password"] == "pass"){
+    const users = require('./users.json');
+    if (users.find(u => u.username === userData.username && u['user-password'] === userData.password)){
         console.log("loged soup :)");
 
         // set a cookie with the username
@@ -166,7 +167,70 @@ app.post('/verificare-autentificare', (req, res) => {
         res.redirect('http://localhost:6789/autentificare');
     }
 });
+}
+//------------------------------------------------------------------------
 
+//----SIGNUP--------------------------------------------------------------
+{
+app.get('/signUp', (req, res) => {
+    if (req.cookies.errorMsg) {
+        const errMsg = req.cookies.errorMsg;
+        console.log(errMsg);
+        res.clearCookie('errorMsg');
+        res.render('signUp', { login: 0, errMsg });
+    }
+    else {
+        res.render('signUp', { login: 0, errMsg: 0 });
+    }
+});
+
+app.post('/signUp-verification', (req, res) => {
+    console.log(req.body);
+    const userData = req.body;
+    try {
+        const users = require('./users.json');
+
+        console.log(userData.username);
+
+        // user already exists
+        if (users.find(u => u.username === userData.username)) {
+            console.log("Signed Up bad :(");
+            res.cookie('errorMsg', 'Username already in use!');
+            res.redirect('http://localhost:6789/signUp');
+            return; // exit to prevent further execution
+        }
+
+        users.push(userData);
+
+        let fs2 = require('fs');
+
+        fs2.writeFile('users.json', JSON.stringify(users, null, 2), (err) => {
+            if (err) {
+                console.error('Error writing file:', err);
+                return;
+            }
+            console.log('User added successfully.');
+        });
+
+        // set a cookie with the username
+        res.cookie('username', userData["username"]);
+        res.cookie('firstName', userData["firstName"]);
+        res.cookie('lastName', userData["lastName"]);
+        res.cookie('email', userData["email"]);
+        res.cookie('login', '1');
+
+        // redirecting
+        res.redirect('http://localhost:6789/');
+        
+    } catch (error) {
+        // handle any errors 
+        console.error('Error reading or parsing file:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+//------------------------------------------------------------------------
+
+//----LOGOUT--------------------------------------------------------------
 app.post('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
