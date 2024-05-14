@@ -11,6 +11,12 @@
             <header>
                 <a href="http://localhost:6789/chestionar">Chestionar</a>
             </header>
+            <br>
+            Logged In as <span style="color: green;font-size: large;"><%= user %></span>
+            <br>
+            <form action="/logout" method="POST">
+                <button type="submit">Sign Out</button>
+            </form>
         <% }; %>
 
         <main>

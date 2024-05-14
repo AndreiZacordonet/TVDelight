@@ -2,12 +2,15 @@
 // using `file system` nodejs module in an asynchronous manner
 const fs = require('fs').promises;
 
-// 
+// for managing cookies
 const cookieParser = require('cookie-parser'); 
 
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const bodyParser = require('body-parser');
+
+// for managing sesions
+const session = require('express-session');
 
 // app initialization
 const app = express();
@@ -19,6 +22,21 @@ app.set('view engine', 'ejs');
 
 // cookie parser module
 app.use(cookieParser());
+
+// session module
+app.use(session({
+    secret: 'secret',   // for cookie encription
+    resave: false,      // session is saved back to session store for every request
+    saveUninitialized: true     // a session is created for each request
+}));
+
+app.use((req, res, next) => {
+    // adding variables to `res.locals` which is available for all views
+    res.locals.username = req.session.username;
+    res.locals.login = req.session.login;
+
+    next();     // next middleware in the stack
+});
 
 // support for layouts - default template file is 'views/layout.ejs'
 app.use(expressLayouts);
@@ -65,7 +83,7 @@ app.get('/chestionar', (req, res) => {
             // parsing JSON data
             const quiz = JSON.parse(data);
             // render the 'chestionar' view with the quiz data
-            res.render('chestionar', { quiz,  login: 1 });
+            res.render('chestionar', { quiz,  login: 1 , user : req.cookies.username });
         })
         .catch(error => {
             // handle any errors
@@ -147,6 +165,21 @@ app.post('/verificare-autentificare', (req, res) => {
         res.cookie('errorMsg', 'Username or password does not match!');
         res.redirect('http://localhost:6789/autentificare');
     }
+});
+
+app.post('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error at logout:', err);
+        } else {
+            res.clearCookie('username');
+            res.clearCookie('login');
+            res.redirect('/');
+        }
+    });
+    // res.clearCookie('username');
+    // res.clearCookie('login');
+    // res.redirect('/');      
 });
 }
 //------------------------------------------------------------------------
