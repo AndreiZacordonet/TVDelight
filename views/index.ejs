@@ -1,11 +1,32 @@
-<% if (user) { %>
-    <div>Welcome, <%= user %></div>
+<% if (username) { %>
+    <div>Welcome, <%= username %></div>
 <% } %>
 <% if(!login) {%>
     <a href="http://localhost:6789/autentificare">Log In</a>
     <a href="http://localhost:6789/signUp">Sign Up</a>
 <% } else { %>
+    <a href="http://localhost:6789/connect-db">Connect to Database</a>
     <a href="http://localhost:6789/create-db">Create Database</a>
     <a href="http://localhost:6789/load-db">Load Database</a>
     <a href="http://localhost:6789/clear-db">Clear Database</a>
 <% } %>
+
+<% if (dbLoad) { %>
+    <br><br>
+    <% products.forEach((product) => { %>
+        Picture: <br>
+        <!-- <img src="<%= product.productId %>.jpg" width="400" height="300"> -->
+        <%= product.productId %><br>
+        Name: <br>
+        <%= product.name %><br>
+        Description: <br>
+        <%= product.description %><br>
+        Price: <br>
+        <%= product.price %><br>
+        <% if (login) {%>
+            <a href="/add-to-cart?id=<%= product.productId %>">Add to Cart</a>
+        <% } %>
+        <br><br>
+    <% }); %>
+<% } %>
+

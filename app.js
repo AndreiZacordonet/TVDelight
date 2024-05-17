@@ -69,17 +69,22 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Response object properties - res - https://expressjs.com/en/api.html#res
 // returns hello world when accesing http://localhost:6789/
 // app.get('/', (req, res) => res.send('Hello World'));
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     // checks if login was successful
     if (req.cookies.login){
         const login = req.cookies.login;
         const user = req.cookies.username;
         console.log(login, user);
 
+        // sending data from the database
         if (req.session.dbLoad) {
+            console.log('ciorba de cal');
+            const products = await Product.find({})
+            // await mongoose.disconnect();
+            res.render('index', { products });
+        } else {
             res.render('index');
         }
-        res.render('index');
     }
     else{
         res.render('index');
@@ -249,22 +254,28 @@ app.post('/signUp-verification', (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+}
 //------------------------------------------------------------------------
 
 //----LOGOUT--------------------------------------------------------------
+{
 app.post('/logout', (req, res) => {
-    req.session.destroy((err) => {
+    req.session.destroy(async (err) => {
         if (err) {
             console.error('Error at logout:', err);
         } else {
             res.clearCookie('username');
             res.clearCookie('login');
+
+            delete res.locals.username;
+            delete res.locals.login;
+            delete res.locals.dbLoad;
+
+            await mongoose.disconnect();
+
             res.redirect('/');
         }
-    });
-    // res.clearCookie('username');
-    // res.clearCookie('login');
-    // res.redirect('/');      
+    });   
 });
 }
 //------------------------------------------------------------------------
@@ -279,7 +290,7 @@ app.get('/create-db', async (req, res) => {
 
         await mongoose.disconnect();
 
-        res.redirect('/');
+        res.redirect('/connect-db');
     } catch (error) {
         console.error('Error at creating the database: ', error);
         res.status(500).send('Internal Server Error');
@@ -290,7 +301,7 @@ app.get('/load-db', async (req, res) => {
     try {
         await mongoose.connect('mongodb://localhost:27017/products');
 
-        //
+        // 
         const data = await fs.readFile('products-backup.json');
         const products = JSON.parse(data);
 
@@ -303,12 +314,22 @@ app.get('/load-db', async (req, res) => {
         
         await mongoose.disconnect();
 
-        res.session.dbLoad = 1;
-        res.redirect('/');
+        res.redirect('/connect-db');
         //
 
     } catch (error) {
         console.error('Error at populating the database: ', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/connect-db', async (req, res) => {
+    try {
+        await mongoose.connect('mongodb://localhost:27017/products');
+        req.session.dbLoad = 1;
+        res.redirect('/');
+    } catch (error) {
+        console.error('Error at connecting to the database: ', error);
         res.status(500).send('Internal Server Error');
     }
 });
@@ -321,6 +342,9 @@ app.get('/clear-db', async (req, res) => {
         console.log('All products deleted successfully');
 
         await mongoose.disconnect();
+
+        req.session.dbLoad = 0;
+
         res.redirect('/');
         //
 
