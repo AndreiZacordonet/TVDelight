@@ -305,6 +305,10 @@ app.get('/load-db', async (req, res) => {
         const data = await fs.readFile('products-backup.json');
         const products = JSON.parse(data);
 
+        // delete old data
+        await Product.deleteMany({});
+        console.log('All products deleted successfully');
+
         // NEVER use forEach with async
         for (const product of products) {
             const prod = new Product(product);
@@ -334,25 +338,25 @@ app.get('/connect-db', async (req, res) => {
     }
 });
 
-app.get('/clear-db', async (req, res) => {
-    try {
-        await mongoose.connect('mongodb://localhost:27017/products');
+// app.get('/clear-db', async (req, res) => {
+//     try {
+//         await mongoose.connect('mongodb://localhost:27017/products');
 
-        await Product.deleteMany({});
-        console.log('All products deleted successfully');
+//         await Product.deleteMany({});
+//         console.log('All products deleted successfully');
 
-        await mongoose.disconnect();
+//         await mongoose.disconnect();
 
-        req.session.dbLoad = 0;
+//         req.session.dbLoad = 0;
 
-        res.redirect('/');
-        //
+//         res.redirect('/');
+//         //
 
-    } catch (error) {
-        console.error('Error at populating the database: ', error);
-        res.status(500).send('Internal Server Error');
-    }
-});
+//     } catch (error) {
+//         console.error('Error at populating the database: ', error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
 }
 //------------------------------------------------------------------------
 
