@@ -12,6 +12,20 @@ const bodyParser = require('body-parser');
 // for managing sesions
 const session = require('express-session');
 
+// mongoose module
+const mongoose = require('mongoose');
+
+// database object Schema
+const productSchema = new mongoose.Schema({
+    productId: { type: String, required: true },
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    price: { type: Number, required: true }
+});
+
+// model for the object Schema - interface for CRUD operations and not only
+const Product = mongoose.model('Product', productSchema);
+
 // app initialization
 const app = express();
 const port = 6789;
@@ -67,7 +81,6 @@ app.get('/', (req, res) => {
     }
     
 });
-// app.get('/', (req, res) => res.render('layout', { id: 'layout' }));
 
 
 //----Quiz----------------------------------------------------------------
@@ -158,6 +171,9 @@ app.post('/verificare-autentificare', (req, res) => {
         res.cookie('username', userData["username"]);
         res.cookie('login', '1');
 
+        req.session.login = 1;
+        req.session.username = userData.username;
+
         // redirecting
         res.redirect('http://localhost:6789/');
     }
@@ -247,5 +263,67 @@ app.post('/logout', (req, res) => {
 });
 }
 //------------------------------------------------------------------------
+
+//----DataBase------------------------------------------------------------
+{
+app.get('/create-db', async (req, res) => {
+    try {
+        await mongoose.connect('mongodb://localhost:27017/products');
+
+        await Product.createCollection();
+
+        await mongoose.disconnect();
+
+        res.redirect('/');
+    } catch (error) {
+        console.error('Error at creating the database: ', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/load-db', async (req, res) => {
+    try {
+        await mongoose.connect('mongodb://localhost:27017/products');
+
+        //
+        const data = await fs.readFile('products-backup.json');
+        const products = JSON.parse(data);
+
+        // NEVER use forEach with async
+        for (const product of products) {
+            const prod = new Product(product);
+            await prod.save();
+            console.log('Product saved successfully:', prod);
+        }
+        
+        await mongoose.disconnect();
+        res.redirect('/');
+        //
+
+    } catch (error) {
+        console.error('Error at populating the database: ', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/clear-db', async (req, res) => {
+    try {
+        await mongoose.connect('mongodb://localhost:27017/products');
+
+        await Product.deleteMany({});
+        console.log('All products deleted successfully');
+
+        await mongoose.disconnect();
+        res.redirect('/');
+        //
+
+    } catch (error) {
+        console.error('Error at populating the database: ', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+}
+//------------------------------------------------------------------------
+
 
 app.listen(port, () => console.log('Server runing at http://localhost:' + port));

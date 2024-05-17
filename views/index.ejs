@@ -1,7 +1,11 @@
 <% if (user) { %>
     <div>Welcome, <%= user %></div>
-<% }; %>
+<% } %>
 <% if(!login) {%>
     <a href="http://localhost:6789/autentificare">Log In</a>
     <a href="http://localhost:6789/signUp">Sign Up</a>
-<% }; %>
+<% } else { %>
+    <a href="http://localhost:6789/create-db">Create Database</a>
+    <a href="http://localhost:6789/load-db">Load Database</a>
+    <a href="http://localhost:6789/clear-db">Clear Database</a>
+<% } %>
