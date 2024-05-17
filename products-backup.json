@@ -1,0 +1,44 @@
+[
+    {
+        "productId": "0000",
+        "name": "Laptop",
+        "description": "A high-performance laptop with 16GB RAM and 512GB SSD.",
+        "price": 1500 
+    },
+    {
+        "productId": "0001",
+        "name": "Laptop",
+        "description": "A high-performance laptop with 32GB RAM and 512GB SSD.",
+        "price": 2100
+    },
+    {
+        "productId": "0002",
+        "name": "Laptop",
+        "description": "A high-performance laptop with 16GB RAM and 1T SSD.",
+        "price": 2300
+    },
+    {
+        "productId": "0003",
+        "name": "Laptop",
+        "description": "A high-performance laptop with 24GB RAM and 1T SSD.",
+        "price": 2800
+    },
+    {
+        "productId": "0004",
+        "name": "Laptop",
+        "description": "A high-performance laptop with 32GB RAM and 1T SSD.",
+        "price": 3050
+    },
+    {
+        "productId": "0005",
+        "name": "Laptop",
+        "description": "A high-performance laptop with 32GB RAM and 2T SSD.",
+        "price": 4000
+    },
+    {
+        "productId": "0006",
+        "name": "Laptop",
+        "description": "A high-performance laptop with 32GB RAM and 3T SSD.",
+        "price": 4500
+    }
+]
