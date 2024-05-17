@@ -48,6 +48,7 @@ app.use((req, res, next) => {
     // adding variables to `res.locals` which is available for all views
     res.locals.username = req.session.username;
     res.locals.login = req.session.login;
+    res.locals.dbLoad = req.session.dbLoad;
 
     next();     // next middleware in the stack
 });
@@ -74,10 +75,14 @@ app.get('/', (req, res) => {
         const login = req.cookies.login;
         const user = req.cookies.username;
         console.log(login, user);
-        res.render('index', { login : login , user : user });
+
+        if (req.session.dbLoad) {
+            res.render('index');
+        }
+        res.render('index');
     }
     else{
-        res.render('index', { login : 0, user : undefined })
+        res.render('index');
     }
     
 });
@@ -96,7 +101,7 @@ app.get('/chestionar', (req, res) => {
             // parsing JSON data
             const quiz = JSON.parse(data);
             // render the 'chestionar' view with the quiz data
-            res.render('chestionar', { quiz,  login: 1 , user : req.cookies.username });
+            res.render('chestionar', { quiz });
         })
         .catch(error => {
             // handle any errors
@@ -133,7 +138,7 @@ app.post('/rezultat-chestionar', (req, res) => {
             });
 
             // seding the number of correct anwers to the Result File
-            res.render('rezultat-chestionar', { correctAns, login: 1, user: req.cookies.username });
+            res.render('rezultat-chestionar', { correctAns });
         })
         .catch(error => {
             // handle any errors
@@ -148,13 +153,13 @@ app.post('/rezultat-chestionar', (req, res) => {
 {
 app.get('/autentificare', (req, res) => {
     if (req.cookies.errorMsg){
-        const errMsg = req.cookies.errorMsg;
+        const errMsg = req.cookies.errMsg;
         console.log(errMsg);
         res.clearCookie('errorMsg');
-        res.render('autentificare', { login: 0 , errMsg });
+        res.render('autentificare', { errMsg });
     }
     else{
-        res.render('autentificare', { login : 0 , errMsg : 0 });
+        res.render('autentificare', { errMsg : 0 });
     }
     
 });
@@ -175,11 +180,11 @@ app.post('/verificare-autentificare', (req, res) => {
         req.session.username = userData.username;
 
         // redirecting
-        res.redirect('http://localhost:6789/');
+        res.redirect('/');
     }
     else{
         console.log("badly loged soup :(");
-        res.cookie('errorMsg', 'Username or password does not match!');
+        res.cookie('errMsg', 'Username or password does not match!');
         res.redirect('http://localhost:6789/autentificare');
     }
 });
@@ -193,10 +198,10 @@ app.get('/signUp', (req, res) => {
         const errMsg = req.cookies.errorMsg;
         console.log(errMsg);
         res.clearCookie('errorMsg');
-        res.render('signUp', { login: 0, errMsg });
+        res.render('signUp', { errMsg });
     }
     else {
-        res.render('signUp', { login: 0, errMsg: 0 });
+        res.render('signUp', { errMsg: 0 });
     }
 });
 
@@ -297,6 +302,8 @@ app.get('/load-db', async (req, res) => {
         }
         
         await mongoose.disconnect();
+
+        res.session.dbLoad = 1;
         res.redirect('/');
         //
 
