@@ -49,6 +49,7 @@ app.use((req, res, next) => {
     res.locals.username = req.session.username;
     res.locals.login = req.session.login;
     res.locals.dbLoad = req.session.dbLoad;
+    res.locals.cart = req.session.cart;
 
     next();     // next middleware in the stack
 });
@@ -357,6 +358,52 @@ app.get('/connect-db', async (req, res) => {
 //         res.status(500).send('Internal Server Error');
 //     }
 // });
+}
+//------------------------------------------------------------------------
+
+//----ShoppingCart--------------------------------------------------------
+{
+app.get('/add-to-cart', (req, res) => {
+    const productId = req.query.id;
+
+    if (!req.session.cart) {
+        req.session.cart = [];
+    }
+
+    const prodIndex = req.session.cart.findIndex(item => item.productId === productId);
+    if (prodIndex > -1) {
+        req.session.cart[prodIndex].quantity += 1;
+    } else {
+        req.session.cart.push({
+            productId: productId,
+            quantity: 1
+        });
+    }
+    
+    console.log(req.session.cart);
+    res.redirect('/');
+});
+
+app.get('/shopping-cart', async (req, res) => {
+    await mongoose.connect('mongodb://localhost:27017/products');
+
+    if (!req.session.cart || req.session.cart.length === 0) {
+        return res.render('shopping-cart', { products: [] });
+    }
+
+    try {
+        const productPromises = req.session.cart.map(async (cartItem) => {
+            return Product.findOne({ productId: cartItem.productId });
+        });
+
+        const products = await Promise.all(productPromises);
+        await mongoose.disconnect();
+        res.render('shopping-cart', { products });
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).send('Error fetching products');
+    }
+});
 }
 //------------------------------------------------------------------------
 
