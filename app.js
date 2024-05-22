@@ -388,6 +388,7 @@ app.get('/shopping-cart', async (req, res) => {
     await mongoose.connect('mongodb://localhost:27017/products');
 
     if (!req.session.cart || req.session.cart.length === 0) {
+        await mongoose.disconnect();
         return res.render('shopping-cart', { products: [] });
     }
 
@@ -401,6 +402,7 @@ app.get('/shopping-cart', async (req, res) => {
         res.render('shopping-cart', { products });
     } catch (error) {
         console.error('Error fetching products:', error);
+        await mongoose.disconnect();
         res.status(500).send('Error fetching products');
     }
 });
