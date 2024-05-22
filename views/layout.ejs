@@ -7,11 +7,17 @@
     </head>
 
     <body>
+        <header>
+            <a href="http://localhost:6789/chestionar">Chestionar</a>
+            <a href="http://localhost:6789/connect-db">Products</a>
+            <a href="http://localhost:6789/create-db">Create Database</a>
+            <a href="http://localhost:6789/load-db">Load Database</a>
+            <% if (admin) { %>
+                <a href="http://localhost:6789/admin">Admin</a>
+            <% } %>
+        </header>
+        <br>
         <% if (login) {%>
-            <header>
-                <a href="http://localhost:6789/chestionar">Chestionar</a>
-            </header>
-            <br>
             Logged In as <span style="color: green;font-size: large;"><%= username %></span>
             <br>
             <form action="/logout" method="POST">
@@ -23,11 +29,10 @@
             <%- body %>
         </main>
 
-        <% if (login) {%>
-            <footer>
 
-            </footer>
-        <% }; %>
+        <footer>
+
+        </footer>
     </body>
 
 </html>

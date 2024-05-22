@@ -50,6 +50,7 @@ app.use((req, res, next) => {
     res.locals.login = req.session.login;
     res.locals.dbLoad = req.session.dbLoad;
     res.locals.cart = req.session.cart;
+    res.locals.admin = req.session.admin;
 
     next();     // next middleware in the stack
 });
@@ -71,25 +72,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // returns hello world when accesing http://localhost:6789/
 // app.get('/', (req, res) => res.send('Hello World'));
 app.get('/', async (req, res) => {
+    // sending data from the database
+    if (req.session.dbLoad) {
+        console.log('ciorba de cal');
+        const products = await Product.find({})
+        // await mongoose.disconnect();
+        res.render('index', { products });
+    } else {
+        res.redirect('connect-db');
+        //res.render('index');
+    }
     // checks if login was successful
-    if (req.cookies.login){
-        const login = req.cookies.login;
-        const user = req.cookies.username;
-        console.log(login, user);
-
-        // sending data from the database
-        if (req.session.dbLoad) {
-            console.log('ciorba de cal');
-            const products = await Product.find({})
-            // await mongoose.disconnect();
-            res.render('index', { products });
-        } else {
-            res.render('index');
-        }
-    }
-    else{
-        res.render('index');
-    }
+    // if (req.cookies.login){
+    //     const login = req.cookies.login;
+    //     const user = req.cookies.username;
+    //     // console.log(login, user);
+    // }
+    // else{
+    //     //res.render('index');
+    // }
     
 });
 
@@ -128,6 +129,7 @@ app.post('/rezultat-chestionar', (req, res) => {
             // taking the post request from the Quiz Form
             const submittedAnswers = req.body;
             let correctAns = 0;
+            console.log(submittedAnswers);
 
             // parsing the object from request
             Object.keys(submittedAnswers).forEach((questionKey) => {
@@ -158,10 +160,10 @@ app.post('/rezultat-chestionar', (req, res) => {
 //----LOGIN---------------------------------------------------------------
 {
 app.get('/autentificare', (req, res) => {
-    if (req.cookies.errorMsg){
+    if (req.cookies.errMsg){
         const errMsg = req.cookies.errMsg;
         console.log(errMsg);
-        res.clearCookie('errorMsg');
+        res.clearCookie('errMsg');
         res.render('autentificare', { errMsg });
     }
     else{
@@ -189,9 +191,26 @@ app.post('/verificare-autentificare', (req, res) => {
         res.redirect('/');
     }
     else{
-        console.log("badly loged soup :(");
-        res.cookie('errMsg', 'Username or password does not match!');
-        res.redirect('http://localhost:6789/autentificare');
+        const admins = require('./admin-users.json');
+        if (admins.find(u => u.username === userData.username && u['user-password'] === userData.password)) {
+            console.log("loged soup :)");
+
+            // set a cookie with the username
+            res.cookie('username', userData["username"]);
+            res.cookie('login', '1');
+
+            req.session.login = 1;
+            req.session.username = userData.username;
+            req.session.admin = 1;
+
+            // redirecting
+            res.redirect('/');
+        }
+        else{
+            console.log("badly loged soup :(");
+            res.cookie('errMsg', 'Username or password does not match!');
+            res.redirect('http://localhost:6789/autentificare');
+        }
     }
 });
 }
@@ -409,5 +428,37 @@ app.get('/shopping-cart', async (req, res) => {
 }
 //------------------------------------------------------------------------
 
+//----Admin---------------------------------------------------------------
+{
+app.get('/admin', async (req, res) => {
+    await mongoose.connect('mongodb://localhost:27017/products');
+    const lastId = await Product.findOne().sort({ productId: -1 }).limit(1);
+    res.render('admin', { lastId: String(Number(lastId.productId) + 1).padStart(lastId.productId.length, '0') } );
+});
+
+app.post('/add-product', async (req, res) => {
+    const product = req.body;
+    console.log(product);
+    try {
+        const notJson = await fs.readFile('products-backup.json');
+        const prodData = JSON.parse(notJson);
+        prodData.push(product);
+        fs.writeFile('products-backup.json', JSON.stringify(prodData, null, 2), (err) => {
+            if (err) {
+                console.error('Error writing file:', err);
+                return;
+            }
+            console.log('Product added successfully.');
+        });
+        res.redirect('load-db');
+    } catch (error) {
+        // handle any errors 
+        console.error('Error reading or parsing file:', error);
+        res.status(500).send('Internal Server Error');
+    }
+    
+});
+}
+//------------------------------------------------------------------------
 
 app.listen(port, () => console.log('Server runing at http://localhost:' + port));

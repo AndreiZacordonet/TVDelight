@@ -1,0 +1,11 @@
+<form action="add-product" method="POST">
+    Product ID:<br>
+    <input type="text" id="productId" name="productId" value="<%= lastId%>" readonly required><br>
+    Name:<br>
+    <input type="text" id="name" name="name" required><br>
+    Description:<br>
+    <input type="text" id="description" name="description" required><br>
+    Price:<br>
+    <input type="number" min="0" id="price" name="price" required><br><br>
+    <button type="submit">Add</button>
+</form>

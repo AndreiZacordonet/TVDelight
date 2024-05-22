@@ -1,0 +1,18 @@
+[
+    {
+        "username": "andrei",
+        "password": "ciorna",
+        "firstName": "asd",
+        "lastName": "asd",
+        "phoneNumber": "asd",
+        "email": "asd@asd"
+    },
+    {
+        "username": "admin",
+        "password": "pass",
+        "firstName": "ra",
+        "lastName": "ar",
+        "phoneNumber": "ar",
+        "email": "pas@gmail.com"
+    }
+]
