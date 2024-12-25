@@ -4,10 +4,12 @@
     <head>
         <meta charset="UTF-8">
         <title>TVDelight</title>
+        <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
         <header>
+            <h2>TVDelight</h2>
             <a href="http://localhost:6789/chestionar">Chestionar</a>
             <a href="http://localhost:6789/connect-db">Products</a>
             <a href="http://localhost:6789/create-db">Create Database</a>
@@ -20,7 +22,7 @@
         <% if (login) {%>
             Logged In as <span style="color: green;font-size: large;"><%= username %></span>
             <br>
-            <form action="/logout" method="POST">
+            <form action="/logout" method="GET">
                 <button type="submit">Sign Out</button>
             </form>
         <% }; %>

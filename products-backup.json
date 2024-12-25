@@ -1,44 +1,92 @@
 [
-    {
-        "productId": "0000",
-        "name": "Laptop",
-        "description": "A high-performance laptop with 16GB RAM and 512GB SSD.",
-        "price": 1500 
-    },
-    {
-        "productId": "0001",
-        "name": "Laptop",
-        "description": "A high-performance laptop with 32GB RAM and 512GB SSD.",
-        "price": 2100
-    },
-    {
-        "productId": "0002",
-        "name": "Laptop",
-        "description": "A high-performance laptop with 16GB RAM and 1T SSD.",
-        "price": 2300
-    },
-    {
-        "productId": "0003",
-        "name": "Laptop",
-        "description": "A high-performance laptop with 24GB RAM and 1T SSD.",
-        "price": 2800
-    },
-    {
-        "productId": "0004",
-        "name": "Laptop",
-        "description": "A high-performance laptop with 32GB RAM and 1T SSD.",
-        "price": 3050
-    },
-    {
-        "productId": "0005",
-        "name": "Laptop",
-        "description": "A high-performance laptop with 32GB RAM and 2T SSD.",
-        "price": 4000
-    },
-    {
-        "productId": "0006",
-        "name": "Laptop",
-        "description": "A high-performance laptop with 32GB RAM and 3T SSD.",
-        "price": 4500
-    }
+  {
+    "productId": "0000",
+    "name": "LG Ultra HD TV",
+    "description": "A 55-inch Ultra HD TV with stunning picture quality and smart features.",
+    "price": 1500
+  },
+  {
+    "productId": "0001",
+    "name": "Samsung QLED TV",
+    "description": "A 65-inch QLED TV with vibrant colors and high dynamic range.",
+    "price": 2100
+  },
+  {
+    "productId": "0002",
+    "name": "Sony Bravia OLED TV",
+    "description": "A 55-inch OLED TV with perfect blacks and superior contrast.",
+    "price": 2300
+  },
+  {
+    "productId": "0003",
+    "name": "TCL 4K Roku TV",
+    "description": "A 50-inch 4K TV with built-in Roku for easy streaming.",
+    "price": 2800
+  },
+  {
+    "productId": "0004",
+    "name": "Vizio P-Series Quantum",
+    "description": "A 65-inch Quantum Dot LED TV with advanced picture processing.",
+    "price": 3050
+  },
+  {
+    "productId": "0005",
+    "name": "Samsung The Frame",
+    "description": "A 55-inch 4K TV that looks like a piece of art when turned off.",
+    "price": 4000
+  },
+  {
+    "productId": "0006",
+    "name": "LG CX OLED TV",
+    "description": "A 77-inch OLED TV with self-lighting pixels and cinematic experience.",
+    "price": 4500
+  },
+  {
+    "productId": "0007",
+    "name": "Sony X950H",
+    "description": "A 75-inch LED TV with full-array local dimming and excellent HDR performance.",
+    "price": 3500
+  },
+  {
+    "productId": "0008",
+    "name": "Hisense H9G",
+    "description": "A 55-inch ULED TV with great value and top-notch performance.",
+    "price": 1200
+  },
+  {
+    "productId": "0009",
+    "name": "Toshiba Fire TV Edition",
+    "description": "A 50-inch 4K TV with Fire TV built-in for seamless streaming.",
+    "price": 500
+  },
+  {
+    "productId": "0010",
+    "name": "w",
+    "description": "w",
+    "price": "23"
+  },
+  {
+    "productId": "0011",
+    "name": "zacusca de cal",
+    "description": "alo buna ziua!",
+    "price": "12345"
+  },
+  {
+    "productId": "0012",
+    "name": "asd",
+    "description": "asd",
+    "price": "12"
+  },
+  {
+    "productId": "0013",
+    "name": "asd",
+    "description": "asd",
+    "price": "12"
+  },
+  {
+    "productId": "0014",
+    "name": "LG TV Ultra100K",
+    "description": "Olemaceabalaceam",
+    "price": "123"
+  }
 ]

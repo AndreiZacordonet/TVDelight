@@ -54,5 +54,37 @@
     "lastName": "asd",
     "phoneNumber": "asd",
     "email": "asd@asd"
+  },
+  {
+    "username": "usernou",
+    "password": "pass",
+    "firstName": "ra",
+    "lastName": "ar",
+    "phoneNumber": "ar",
+    "email": "pas@gmail.com"
+  },
+  {
+    "username": "rroaarrrrr",
+    "password": "pass",
+    "firstName": "sasdasd",
+    "lastName": "asdasd",
+    "phoneNumber": "234234",
+    "email": "asdasdscas@csddcc"
+  },
+  {
+    "username": "Andreieu",
+    "password": "pass",
+    "firstName": "Andreieu",
+    "lastName": "Andreieu",
+    "phoneNumber": "Andreieu",
+    "email": "Andreieu@asd"
+  },
+  {
+    "username": "userqweqweqweqwe",
+    "password": "pass",
+    "firstName": "qweqwe",
+    "lastName": "qweqwe",
+    "phoneNumber": "qweqwe",
+    "email": "asdas@qweqw"
   }
 ]

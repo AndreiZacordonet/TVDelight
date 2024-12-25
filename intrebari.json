@@ -1,32 +1,102 @@
 [
     {
-        "question": "Question 1",
+        "question": "What does 'OLED' stand for in the context of TVs?",
         "options": [
-            "option 1",
-            "option 2",
-            "option 3",
-            "option 4"
+            "Organic Light Emitting Diode",
+            "Optic Light Enhanced Display",
+            "Over Light Emission Display",
+            "Organic Laser Enhanced Display"
         ],
         "correct": "1"
     },
     {
-        "question": "Question 2",
+        "question": "Which company is known for producing the 'Bravia' line of televisions?",
         "options": [
-            "option 1",
-            "option 2",
-            "option 3",
-            "option 4"
+            "Samsung",
+            "LG",
+            "Sony",
+            "Panasonic"
+        ],
+        "correct": "3"
+    },
+    {
+        "question": "What is the primary benefit of a 4K resolution TV?",
+        "options": [
+            "Better color accuracy",
+            "Higher frame rates",
+            "Improved sound quality",
+            "Increased picture clarity with more pixels"
+        ],
+        "correct": "4"
+    },
+    {
+        "question": "Which type of TV is known for its energy efficiency and thin profile?",
+        "options": [
+            "Plasma",
+            "LCD",
+            "LED",
+            "CRT"
+        ],
+        "correct": "3"
+    },
+    {
+        "question": "What technology does an 'HDR' TV enhance?",
+        "options": [
+            "Sound quality",
+            "Color and contrast",
+            "Refresh rate",
+            "Viewing angles"
         ],
         "correct": "2"
     },
     {
-        "question": "Question 3",
+        "question": "Which TV brand is known for its 'QLED' technology?",
         "options": [
-            "option 1",
-            "option 2",
-            "option 3",
-            "option 4"
+            "Sony",
+            "Samsung",
+            "LG",
+            "Vizio"
+        ],
+        "correct": "2"
+    },
+    {
+        "question": "What is the main advantage of a smart TV?",
+        "options": [
+            "Larger screen size",
+            "Integrated internet connectivity",
+            "Higher refresh rate",
+            "3D capabilities"
+        ],
+        "correct": "2"
+    },
+    {
+        "question": "Which of the following is a feature of a 120Hz TV compared to a 60Hz TV?",
+        "options": [
+            "Lower power consumption",
+            "Better color accuracy",
+            "Smoother motion for fast-moving content",
+            "Improved sound quality"
         ],
         "correct": "3"
+    },
+    {
+        "question": "What is the purpose of a TV's HDMI port?",
+        "options": [
+            "To connect to the internet",
+            "To connect to external audio devices",
+            "To connect high-definition video and audio devices",
+            "To update the TV's firmware"
+        ],
+        "correct": "3"
+    },
+    {
+        "question": "Which of these is considered a disadvantage of plasma TVs?",
+        "options": [
+            "High energy consumption",
+            "Limited viewing angles",
+            "Poor color reproduction",
+            "Low refresh rates"
+        ],
+        "correct": "1"
     }
 ]
